@@ -1,12 +1,18 @@
+import { Chirp } from '@/components/chirp';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { store } from '@/routes/chirps';
+import { type Chirp as ChirpType } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 
-export default function ChirpsIndex() {
+interface Props {
+    chirps: ChirpType[];
+}
+
+export default function ChirpsIndex({ chirps }: Props) {
     return (
         <AppLayout>
             <Head title="Chirps" />
@@ -33,6 +39,12 @@ export default function ChirpsIndex() {
                         </>
                     )}
                 </Form>
+
+                <div className="mt-6 space-y-4">
+                    {chirps.map((chirp) => (
+                        <Chirp key={chirp.id} chirp={chirp} />
+                    ))}
+                </div>
             </div>
         </AppLayout>
     );
