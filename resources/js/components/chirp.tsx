@@ -1,16 +1,25 @@
 import { Button } from '@/components/ui/button';
 import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
-import { update } from '@/routes/chirps';
+import { destroy, update } from '@/routes/chirps';
 import { type Chirp as ChirpType, type SharedData } from '@/types';
-import { Form, usePage } from '@inertiajs/react';
+import { Form, Link, usePage } from '@inertiajs/react';
 import { formatDistanceToNow } from 'date-fns';
-import { Edit, MessageSquare, MoreHorizontal } from 'lucide-react';
+import { Edit, MessageSquare, MoreHorizontal, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 interface ChirpProps {
@@ -66,6 +75,49 @@ export function Chirp({ chirp }: ChirpProps) {
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </DropdownMenuItem>
+
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <DropdownMenuItem
+                                                onSelect={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                                className="text-red-600"
+                                            >
+                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                Delete
+                                            </DropdownMenuItem>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogTitle>
+                                                Delete Chirp?
+                                            </DialogTitle>
+                                            <DialogDescription>
+                                                Are you sure you want to delete
+                                                this chirp? This action cannot
+                                                be undone.
+                                            </DialogDescription>
+                                            <DialogFooter className="gap-2">
+                                                <DialogClose asChild>
+                                                    <Button variant="secondary">
+                                                        Cancel
+                                                    </Button>
+                                                </DialogClose>
+                                                <Button
+                                                    variant="destructive"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={destroy(chirp)}
+                                                        method="delete"
+                                                        as="button"
+                                                    >
+                                                        Delete
+                                                    </Link>
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}

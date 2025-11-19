@@ -17,7 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('chirps', ChirpController::class)
-        ->only(['index', 'store', 'update']);
+        ->only(['index', 'store', 'update', 'destroy']);
+    // ->except(['create', 'show', 'edit']);
 });
 
 require __DIR__.'/settings.php';
